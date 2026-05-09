@@ -57,8 +57,13 @@
     },
   };
 
-  const NEON_COLOR = "#c85f33";
-  const NEON_GLOW  = "#c85f33";
+  const COLOR_PRIMARY   = "#c85f33";  // Ukraine, UK, USA, Italy
+  const COLOR_SECONDARY = "#d9985d";  // Romania, Australia
+  const SECONDARY_IDS   = new Set([642, 36]);
+
+  function countryColor(id) {
+    return SECONDARY_IDS.has(+id) ? COLOR_SECONDARY : COLOR_PRIMARY;
+  }
 
   const width  = window.innerWidth;
   const height = window.innerHeight;
@@ -138,13 +143,13 @@
     .join("path")
     .classed("country", true)
     .attr("d", path)
-    .attr("fill", NEON_COLOR)
+    .attr("fill", d => countryColor(d.id))
     .attr("stroke", "none");
 
   glowGroup.append("path")
     .datum(crimeaFeature)
     .attr("d", path)
-    .attr("fill", NEON_COLOR)
+    .attr("fill", COLOR_PRIMARY)
     .attr("stroke", "none");
 
   // Sharp fill layer on top
@@ -153,7 +158,7 @@
     .join("path")
     .classed("country", true)
     .attr("d", path)
-    .attr("fill", NEON_COLOR)
+    .attr("fill", d => countryColor(d.id))
     .attr("stroke", "#ffffff")
     .attr("stroke-width", 0.5);
 
@@ -161,7 +166,7 @@
   neonGroup.append("path")
     .datum(crimeaFeature)
     .attr("d", path)
-    .attr("fill", NEON_COLOR)
+    .attr("fill", COLOR_PRIMARY)
     .attr("stroke", "#ffffff")
     .attr("stroke-width", 0.5);
 
